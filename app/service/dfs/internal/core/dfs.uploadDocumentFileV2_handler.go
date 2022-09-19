@@ -40,7 +40,7 @@ func (c *DfsCore) DfsUploadDocumentFileV2(in *dfs.TLDfsUploadDocumentFileV2) (*m
 	r, err := c.svcCtx.Dao.OpenFile(c.ctx, in.GetCreator(), file.Id, file.Parts)
 	if err != nil {
 		c.Logger.Errorf("dfs.uploadDocumentFile - %v", err)
-		return nil, mtproto.ErrWallpaperFileInvalid
+		return nil, mtproto.ErrMediaInvalid
 	}
 
 	//fileInfo, err := s.Dao.GetFileInfo(ctx, creatorId, file.Id)
@@ -84,7 +84,8 @@ func (c *DfsCore) DfsUploadDocumentFileV2(in *dfs.TLDfsUploadDocumentFileV2) (*m
 		FileReference: nil,
 		Date:          int32(r.DfsFileInfo.Mtime),
 		MimeType:      in.GetMedia().GetMimeType(),
-		Size2:         int32(r.DfsFileInfo.GetFileSize()),
+		Size2_INT32:   int32(r.DfsFileInfo.GetFileSize()),
+		Size2_INT64:   r.DfsFileInfo.GetFileSize(),
 		Thumbs:        nil,
 		VideoThumbs:   nil,
 		DcId:          1,

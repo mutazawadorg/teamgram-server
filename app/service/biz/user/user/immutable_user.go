@@ -130,6 +130,14 @@ func (m *ImmutableUser) BotInfoVersion() int32 {
 	return m.User.Bot.GetBotInfoVersion()
 }
 
+func (m *ImmutableUser) BotAttachMenu() bool {
+	return m.User.BotAttachMenu
+}
+
+func (m *ImmutableUser) Premium() bool {
+	return m.User.Premium
+}
+
 func (m *ImmutableUser) CheckContact(cId int64) (bool, bool) {
 	i := sort.Search(len(m.Contacts), func(i int) bool {
 		return m.Contacts[i].ContactUserId >= cId
@@ -158,6 +166,10 @@ func (m *ImmutableUser) CheckPrivacy(keyType int, id int64) bool {
 	var (
 		rules *PrivacyKeyRules
 	)
+
+	if m.Id() == id {
+		return true
+	}
 
 	for _, v := range m.KeysPrivacyRules {
 		if v.Key == int32(keyType) {
@@ -202,13 +214,15 @@ func (m *ImmutableUser) ToUnsafeUser(selfUser *ImmutableUser) *mtproto.User {
 		Scam:                 m.Scam(),
 		ApplyMinPhoto:        false,
 		Fake:                 m.Fake(),
+		BotAttachMenu:        m.BotAttachMenu(),
+		Premium:              m.Premium(),
 		Id:                   m.Id(),
 		AccessHash:           mtproto.MakeFlagsInt64(m.AccessHash()),
 		FirstName:            mtproto.MakeFlagsString(m.FirstName()),
 		LastName:             mtproto.MakeFlagsString(m.LastName()),
 		Username:             mtproto.MakeFlagsString(m.Username()),
 		Phone:                nil,
-		Photo:                m.ProfilePhoto(),
+		Photo:                nil,
 		Status:               MakeUserStatus(m.LastSeenAt, true),
 		BotInfoVersion:       mtproto.MakeFlagsInt32(m.BotInfoVersion()),
 		RestrictionReason:    m.RestrictionReason(),
@@ -258,6 +272,8 @@ func (m *ImmutableUser) ToSelfUser() *mtproto.User {
 		Scam:                 m.Scam(),
 		ApplyMinPhoto:        false,
 		Fake:                 m.Fake(),
+		BotAttachMenu:        m.BotAttachMenu(),
+		Premium:              m.Premium(),
 		Id:                   m.Id(),
 		AccessHash:           mtproto.MakeFlagsInt64(m.AccessHash()),
 		FirstName:            mtproto.MakeFlagsString(m.FirstName()),
@@ -291,6 +307,8 @@ func (m *ImmutableUser) ToDeletedUser() *mtproto.User {
 		Scam:                 false,
 		ApplyMinPhoto:        false,
 		Fake:                 false,
+		BotAttachMenu:        false,
+		Premium:              false,
 		AccessHash:           mtproto.MakeFlagsInt64(m.AccessHash()),
 		FirstName:            nil,
 		LastName:             nil,

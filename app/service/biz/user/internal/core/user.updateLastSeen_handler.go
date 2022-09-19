@@ -15,14 +15,14 @@ import (
 )
 
 // UserUpdateLastSeen
-// user.updateLastSeen id:long last_seen_at:long expries:int = Bool;
+// user.updateLastSeen id:long last_seen_at:long expires:int = Bool;
 func (c *UserCore) UserUpdateLastSeen(in *user.TLUserUpdateLastSeen) (*mtproto.Bool, error) {
 	if in.GetId() > 0 {
 		c.svcCtx.Dao.PutLastSeenAt(
 			c.ctx,
 			in.GetId(),
 			in.GetLastSeenAt(),
-			in.GetExpries())
+			in.GetExpires())
 	}
 
 	return mtproto.BoolTrue, nil

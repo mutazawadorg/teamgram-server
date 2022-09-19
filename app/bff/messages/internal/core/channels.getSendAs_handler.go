@@ -30,8 +30,9 @@ func (c *MessagesCore) ChannelsGetSendAs(in *mtproto.TLChannelsGetSendAs) (*mtpr
 
 	// Disable sendAsPeers
 	return mtproto.MakeTLChannelsSendAsPeers(&mtproto.Channels_SendAsPeers{
-		Peers: []*mtproto.Peer{},
-		Chats: []*mtproto.Chat{},
-		Users: []*mtproto.User{},
+		Peers_VECTORPEER:       []*mtproto.Peer{},
+		Peers_VECTORSENDASPEER: []*mtproto.SendAsPeer{},
+		Chats:                  []*mtproto.Chat{},
+		Users:                  []*mtproto.User{},
 	}).To_Channels_SendAsPeers(), nil
 }

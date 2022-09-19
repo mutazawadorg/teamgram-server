@@ -5,7 +5,7 @@
  * Copyright (c) 2022-present,  Teamgram Authors.
  *  All rights reserved.
  *
- * Author: teagramio (teagram.io@gmail.com)
+ * Author: Benqi (wubenqi@gmail.com)
  */
 
 package user
@@ -29,6 +29,7 @@ const (
 	Predicate_user_setAccountDaysTTL                = "user_setAccountDaysTTL"
 	Predicate_user_getAccountDaysTTL                = "user_getAccountDaysTTL"
 	Predicate_user_getNotifySettings                = "user_getNotifySettings"
+	Predicate_user_getNotifySettingsList            = "user_getNotifySettingsList"
 	Predicate_user_setNotifySettings                = "user_setNotifySettings"
 	Predicate_user_resetNotifySettings              = "user_resetNotifySettings"
 	Predicate_user_getAllNotifySettings             = "user_getAllNotifySettings"
@@ -91,7 +92,7 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 
 	},
 	Predicate_lastSeenData: {
-		0: -313287543, // 0xed539c89
+		0: -1280204321, // 0xb3b1a1df
 
 	},
 	Predicate_contactData: {
@@ -119,7 +120,7 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 
 	},
 	Predicate_user_updateLastSeen: {
-		0: 1314677789, // 0x4e5c641d
+		0: -46114259, // 0xfd405a2d
 
 	},
 	Predicate_user_getLastSeen: {
@@ -131,7 +132,7 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 
 	},
 	Predicate_user_getMutableUsers: {
-		0: 187684863, // 0xb2fd7ff
+		0: -1657068585, // 0x9d3b23d7
 
 	},
 	Predicate_user_getImmutableUserByPhone: {
@@ -152,6 +153,10 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 	},
 	Predicate_user_getNotifySettings: {
 		0: 1085028198, // 0x40ac3766
+
+	},
+	Predicate_user_getNotifySettingsList: {
+		0: -463137380, // 0xe465159c
 
 	},
 	Predicate_user_setNotifySettings: {
@@ -359,22 +364,23 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 var clazzIdNameRegisters2 = map[int32]string{
 	1894399913:  Predicate_peerPeerNotifySettings,                // 0x70ea3fa9
 	-1810715178: Predicate_privacyKeyRules,                       // 0x9412add6
-	-313287543:  Predicate_lastSeenData,                          // 0xed539c89
+	-1280204321: Predicate_lastSeenData,                          // 0xb3b1a1df
 	722018346:   Predicate_contactData,                           // 0x2b09202a
 	23110840:    Predicate_botData,                               // 0x160a4b8
 	2138633749:  Predicate_userData,                              // 0x7f78f615
 	361114766:   Predicate_immutableUser,                         // 0x15862c8e
 	1256160192:  Predicate_userImportedContacts,                  // 0x4adf7bc0
 	2090958337:  Predicate_user_getLastSeens,                     // 0x7ca17e01
-	1314677789:  Predicate_user_updateLastSeen,                   // 0x4e5c641d
+	-46114259:   Predicate_user_updateLastSeen,                   // 0xfd405a2d
 	-1860581154: Predicate_user_getLastSeen,                      // 0x9119c8de
 	-47047585:   Predicate_user_getImmutableUser,                 // 0xfd321c5f
-	187684863:   Predicate_user_getMutableUsers,                  // 0xb2fd7ff
+	-1657068585: Predicate_user_getMutableUsers,                  // 0x9d3b23d7
 	-373067804:  Predicate_user_getImmutableUserByPhone,          // 0xe9c36fe4
 	-12709005:   Predicate_user_getImmutableUserByToken,          // 0xff3e1373
 	-766178484:  Predicate_user_setAccountDaysTTL,                // 0xd2550b4c
 	-1299956000: Predicate_user_getAccountDaysTTL,                // 0xb2843ee0
 	1085028198:  Predicate_user_getNotifySettings,                // 0x40ac3766
+	-463137380:  Predicate_user_getNotifySettingsList,            // 0xe465159c
 	-907188763:  Predicate_user_setNotifySettings,                // 0xc9ed65e5
 	235380084:   Predicate_user_resetNotifySettings,              // 0xe079d74
 	1435658357:  Predicate_user_getAllNotifySettings,             // 0x55926875

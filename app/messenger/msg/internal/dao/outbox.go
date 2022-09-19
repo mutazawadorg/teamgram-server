@@ -55,7 +55,7 @@ func makeMessageBoxByDO(boxDO *dataobject.MessagesDO) *mtproto.MessageBox {
 		Message:           nil,
 	}
 	jsonx.UnmarshalFromString(boxDO.MessageData, &box.Message)
-
+	box.Message = box.Message.FixData()
 	return box
 }
 
@@ -89,22 +89,19 @@ func (d *Dao) sendMessageToOutbox(ctx context.Context, fromId int64, peer *mtpro
 		// mType, mData := mtproto.EncodeMessage(message)
 		mData, _ := jsonx.Marshal(message)
 		outMsgBox := &mtproto.MessageBox{
-			UserId:          fromId,
-			SenderUserId:    fromId,
-			PeerType:        peer.PeerType,
-			PeerId:          peer.PeerId,
-			MessageId:       outBoxMsgId,
-			DialogId1:       dialogId.A,
-			DialogId2:       dialogId.B,
-			DialogMessageId: d.IDGenClient2.NextId(ctx),
-			// MessageDataId:     d.IDGenClient2.NextId(ctx),
+			UserId:            fromId,
+			SenderUserId:      fromId,
+			PeerType:          peer.PeerType,
+			PeerId:            peer.PeerId,
+			MessageId:         outBoxMsgId,
+			DialogId1:         dialogId.A,
+			DialogId2:         dialogId.B,
+			DialogMessageId:   dialogMessageId,
 			RandomId:          outboxMessage.RandomId,
 			Pts:               0,
 			PtsCount:          0,
-			MessageFilterType: int32(mtproto.GetMediaType(message)),
-			// MessageBoxType:    mtproto.MESSAGE_BOX_TYPE_OUTGOING,
-			// MessageType:       int32(mType),
-			Message: message,
+			MessageFilterType: mtproto.GetMediaType(message),
+			Message:           message,
 		}
 
 		outBoxDO := &dataobject.MessagesDO{
@@ -143,8 +140,8 @@ func (d *Dao) sendMessageToOutbox(ctx context.Context, fromId int64, peer *mtpro
 			}
 		}
 
-		outMsgBox.Pts = d.IDGenClient2.NextPtsId(ctx, fromId)
-		outMsgBox.PtsCount = 1
+		//outMsgBox.Pts = d.IDGenClient2.NextPtsId(ctx, fromId)
+		//outMsgBox.PtsCount = 1
 		// logx.WithContext(ctx).Infof("sendMessage - (pts: %d, pts_count: %d)", outMsgBox.Pts, outMsgBox.PtsCount)
 
 		switch peer.PeerType {
@@ -280,6 +277,8 @@ func (d *Dao) sendMessageToOutbox(ctx context.Context, fromId int64, peer *mtpro
 	switch tR.Data.(type) {
 	case *mtproto.MessageBox:
 		outBox = tR.Data.(*mtproto.MessageBox)
+		outBox.Pts = d.IDGenClient2.NextPtsId(ctx, fromId)
+		outBox.PtsCount = 1
 
 	case int64:
 		if tR.Data.(int64) <= 0 {
@@ -346,7 +345,7 @@ func (d *Dao) SendChatMultiMessage(ctx context.Context, fromId, chatId int64, ou
 	return boxList, nil
 }
 
-func (d *Dao) DeleteMessages(ctx context.Context, userId int64, msgIds []int32) ([]int64, error) {
+func (d *Dao) DeleteMessages(ctx context.Context, userId int64, msgIds []int32) (*mtproto.PeerUtil, []int64, error) {
 
 	var (
 		topMessageIndex      int32
@@ -373,15 +372,15 @@ func (d *Dao) DeleteMessages(ctx context.Context, userId int64, msgIds []int32) 
 		})
 	if err != nil {
 		// mtproto.ErrMsgIdInvalid
-		return nil, err
+		return nil, nil, err
 	} else if dialogId.IsZero() {
-		return []int64{}, nil
+		return mtproto.MakePeerUtil(mtproto.PEER_EMPTY, 0), []int64{}, nil
 	}
 
 	// 会话里最后n条消息，检查是否需要修改会话信息
 	topMessageDOList, err := d.MessagesDAO.SelectDialogLastMessageList(ctx, userId, dialogId.A, dialogId.B, int32(len(msgIds)+1))
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	} else if len(topMessageDOList) == 0 {
 		// return []int64{}, nil
 	} else {
@@ -426,13 +425,13 @@ func (d *Dao) DeleteMessages(ctx context.Context, userId int64, msgIds []int32) 
 			peer.PeerId)
 	})
 	if tR.Err != nil {
-		return nil, tR.Err
+		return nil, nil, tR.Err
 	}
 
 	for i := 0; i < len(msgDOList); i++ {
 		deletedMsgDataIdList = append(deletedMsgDataIdList, msgDOList[i].DialogMessageId)
 	}
-	return deletedMsgDataIdList, nil
+	return peer, deletedMsgDataIdList, nil
 }
 
 //func (d *Dao) editOutboxMessage(ctx context.Context, fromId int32, peer *model.PeerUtil, toId int32, message *mtproto.Message) (box *model.MessageBox, err error) {
@@ -465,7 +464,6 @@ func (d *Dao) EditUserOutboxMessage(ctx context.Context, fromId, toId int64, mes
 
 func (d *Dao) EditChatOutboxMessage(ctx context.Context, fromId, toId int64, message *mtproto.Message) (*mtproto.MessageBox, error) {
 	return d.editOutboxMessage(ctx, fromId, mtproto.PEER_CHAT, toId, message)
-	return nil, nil
 }
 
 func (d *Dao) editOutboxMessage(ctx context.Context, fromId int64, peerType int32, peerId int64, message *mtproto.Message) (*mtproto.MessageBox, error) {

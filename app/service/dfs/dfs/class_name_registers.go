@@ -5,7 +5,7 @@
  * Copyright (c) 2022-present,  Teamgram Authors.
  *  All rights reserved.
  *
- * Author: teagramio (teagram.io@gmail.com)
+ * Author: Benqi (wubenqi@gmail.com)
  */
 
 package dfs
@@ -21,6 +21,7 @@ const (
 	Predicate_dfs_uploadMp4DocumentMedia   = "dfs_uploadMp4DocumentMedia"
 	Predicate_dfs_uploadWallPaperFile      = "dfs_uploadWallPaperFile"
 	Predicate_dfs_uploadThemeFile          = "dfs_uploadThemeFile"
+	Predicate_dfs_uploadRingtoneFile       = "dfs_uploadRingtoneFile"
 )
 
 var clazzNameRegisters2 = map[string]map[int]int32{
@@ -41,7 +42,7 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 
 	},
 	Predicate_dfs_downloadFile: {
-		0: -2144148946, // 0x8032e22e
+		0: -692064706, // 0xd6bfee3e
 
 	},
 	Predicate_dfs_uploadDocumentFileV2: {
@@ -64,6 +65,10 @@ var clazzNameRegisters2 = map[string]map[int]int32{
 		0: -559525993, // 0xdea64f97
 
 	},
+	Predicate_dfs_uploadRingtoneFile: {
+		0: 45335985, // 0x2b3c5b1
+
+	},
 }
 
 var clazzIdNameRegisters2 = map[int32]string{
@@ -71,12 +76,13 @@ var clazzIdNameRegisters2 = map[int32]string{
 	605082018:   Predicate_dfs_uploadPhotoFileV2,        // 0x2410d1a2
 	-870473038:  Predicate_dfs_uploadProfilePhotoFileV2, // 0xcc1da2b2
 	2043921699:  Predicate_dfs_uploadEncryptedFileV2,    // 0x79d3c523
-	-2144148946: Predicate_dfs_downloadFile,             // 0x8032e22e
+	-692064706:  Predicate_dfs_downloadFile,             // 0xd6bfee3e
 	1983081911:  Predicate_dfs_uploadDocumentFileV2,     // 0x76336db7
 	1103416576:  Predicate_dfs_uploadGifDocumentMedia,   // 0x41c4cd00
 	-1566246888: Predicate_dfs_uploadMp4DocumentMedia,   // 0xa2a4f818
 	-1046081450: Predicate_dfs_uploadWallPaperFile,      // 0xc1a61056
 	-559525993:  Predicate_dfs_uploadThemeFile,          // 0xdea64f97
+	45335985:    Predicate_dfs_uploadRingtoneFile,       // 0x2b3c5b1
 
 }
 

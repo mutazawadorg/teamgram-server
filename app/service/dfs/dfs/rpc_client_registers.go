@@ -5,7 +5,7 @@
  * Copyright (c) 2022-present,  Teamgram Authors.
  *  All rights reserved.
  *
- * Author: teagramio (teagram.io@gmail.com)
+ * Author: Benqi (wubenqi@gmail.com)
  */
 
 package dfs
@@ -36,6 +36,7 @@ var rpcContextRegisters = map[string]RPCContextTuple{
 	"TLDfsUploadMp4DocumentMedia":   RPCContextTuple{"/mtproto.RPCDfs/dfs_uploadMp4DocumentMedia", func() interface{} { return new(mtproto.Document) }},
 	"TLDfsUploadWallPaperFile":      RPCContextTuple{"/mtproto.RPCDfs/dfs_uploadWallPaperFile", func() interface{} { return new(mtproto.Document) }},
 	"TLDfsUploadThemeFile":          RPCContextTuple{"/mtproto.RPCDfs/dfs_uploadThemeFile", func() interface{} { return new(mtproto.Document) }},
+	"TLDfsUploadRingtoneFile":       RPCContextTuple{"/mtproto.RPCDfs/dfs_uploadRingtoneFile", func() interface{} { return new(mtproto.Document) }},
 }
 
 func FindRPCContextTuple(t interface{}) *RPCContextTuple {

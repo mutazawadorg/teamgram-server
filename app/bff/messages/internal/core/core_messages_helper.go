@@ -27,18 +27,14 @@ import (
 
 // draft
 func (c *MessagesCore) doClearDraft(ctx context.Context, userId int64, authKeyId int64, peer *mtproto.PeerUtil) {
-	var (
-		hasClearDraft bool
-	)
-
-	c.svcCtx.Dao.DialogClient.DialogClearDraftMessage(ctx, &dialog.TLDialogClearDraftMessage{
+	rV, _ := c.svcCtx.Dao.DialogClient.DialogClearDraftMessage(ctx, &dialog.TLDialogClearDraftMessage{
 		UserId:   c.MD.UserId,
 		PeerType: peer.PeerType,
 		PeerId:   peer.PeerId,
 	})
 
 	// ClearDraft
-	if hasClearDraft {
+	if mtproto.FromBool(rV) {
 		updateDraftMessage := mtproto.MakeTLUpdateDraftMessage(&mtproto.Update{
 			Peer_PEER: peer.ToPeer(),
 			Draft:     mtproto.MakeTLDraftMessageEmpty(nil).To_DraftMessage(),
@@ -225,11 +221,9 @@ func (c *MessagesCore) makeMediaByInputMedia(media *mtproto.InputMedia) (message
 		}).To_MessageMedia()
 	case mtproto.Predicate_inputMediaPoll:
 		// inputMediaPoll#f94e5f1 flags:# poll:Poll correct_answers:flags.0?Vector<bytes> solution:flags.1?string solution_entities:flags.1?Vector<MessageEntity> = InputMedia;
-		messageMedia = mtproto.MakeTLMessageMediaPoll(&mtproto.MessageMedia{
-			Poll:    media.Poll,
-			Results: nil,
-		}).To_MessageMedia()
 
+		// TODO(@benqi): Not impl inputMediaPoll
+		messageMedia = mtproto.MakeTLMessageMediaUnsupported(nil).To_MessageMedia()
 	case mtproto.Predicate_inputMediaDice:
 		// inputMediaDice#e66fbf7b emoticon:string = InputMedia;
 

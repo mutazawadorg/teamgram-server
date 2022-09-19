@@ -5,7 +5,7 @@
  * Copyright (c) 2022-present,  Teamgram Authors.
  *  All rights reserved.
  *
- * Author: teagramio (teagram.io@gmail.com)
+ * Author: Benqi (wubenqi@gmail.com)
  */
 
 package user
@@ -36,6 +36,7 @@ var rpcContextRegisters = map[string]RPCContextTuple{
 	"TLUserSetAccountDaysTTL":                RPCContextTuple{"/mtproto.RPCUser/user_setAccountDaysTTL", func() interface{} { return new(mtproto.Bool) }},
 	"TLUserGetAccountDaysTTL":                RPCContextTuple{"/mtproto.RPCUser/user_getAccountDaysTTL", func() interface{} { return new(mtproto.AccountDaysTTL) }},
 	"TLUserGetNotifySettings":                RPCContextTuple{"/mtproto.RPCUser/user_getNotifySettings", func() interface{} { return new(mtproto.PeerNotifySettings) }},
+	"TLUserGetNotifySettingsList":            RPCContextTuple{"/mtproto.RPCUser/user_getNotifySettingsList", func() interface{} { return new(Vector_PeerPeerNotifySettings) }},
 	"TLUserSetNotifySettings":                RPCContextTuple{"/mtproto.RPCUser/user_setNotifySettings", func() interface{} { return new(mtproto.Bool) }},
 	"TLUserResetNotifySettings":              RPCContextTuple{"/mtproto.RPCUser/user_resetNotifySettings", func() interface{} { return new(mtproto.Bool) }},
 	"TLUserGetAllNotifySettings":             RPCContextTuple{"/mtproto.RPCUser/user_getAllNotifySettings", func() interface{} { return new(Vector_PeerPeerNotifySettings) }},
